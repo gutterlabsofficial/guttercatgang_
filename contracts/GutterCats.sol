@@ -73,7 +73,7 @@ contract GutterCats is ERC1155, Ownable {
 	function adopt() private {
 		//you would be pretty unlucky to pay the miners alot of gas
 		for (uint256 i = 0; i < 9999; i++) {
-			uint256 randID = random(0, 3000, i);
+			uint256 randID = random(1, 3000, i);
 			if (_totalSupply[randID] == 0) {
 				_totalSupply[randID] = 1;
 				_mint(msg.sender, randID, 1, "0x0000");
