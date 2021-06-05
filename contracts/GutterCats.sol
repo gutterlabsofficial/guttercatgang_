@@ -34,7 +34,8 @@ contract GutterCats is ERC1155, Ownable {
 	using Strings for string;
 	mapping(uint256 => uint256) private _totalSupply;
 
-	string public _baseURI = "https://github.com/nftinvesting/guttercatgang_/tree/master/j/";
+	string public _baseURI =
+		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/j/";
 	string public _contractURI =
 		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/j/contract_uri";
 	mapping(uint256 => string) public _tokenURIs;
@@ -105,6 +106,10 @@ contract GutterCats is ERC1155, Ownable {
 	}
 
 	function uri(uint256 tokenId) public view override returns (string memory) {
+		return string(abi.encodePacked(_baseURI, uint2str(tokenId)));
+	}
+
+	function tokenURI(uint256 tokenId) public view returns (string memory) {
 		return string(abi.encodePacked(_baseURI, uint2str(tokenId)));
 	}
 
