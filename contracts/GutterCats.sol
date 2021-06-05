@@ -63,8 +63,9 @@ contract GutterCats is ERC1155, Ownable {
 
 	//adopts multiple cats at once
 	function adoptCats(uint256 _howMany) public payable {
-		require(msg.value == _howMany * itemPrice, "insufficient ETH");
 		require(_howMany <= 10, "max 10 cats at once");
+		require(itemPrice.mul(_howMany) == msg.value, "insufficient ETH");
+
 		for (uint256 i = 0; i < _howMany; i++) {
 			adopt();
 		}
