@@ -1,0 +1,13 @@
+{
+ "description": "The year is 2050. Humans are an interplanetary species and have all but abandoned the post-apocalyptic shatters of society on earth. Cats have taken over. One crime-ridden, nondescript inner city is inhabited by a group of cats collectively known as the Gutter Cats.",
+ "external_url": "https://guttercatgang.com",
+ "image": "https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/i/catstub.png",
+ "name": "Gutter Cat #2169",
+ "background_color": "000000",
+ "attributes": [
+  {
+   "trait_type": "age",
+   "value": "new born cat"
+  }
+ ]
+}

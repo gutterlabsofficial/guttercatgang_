@@ -14,7 +14,7 @@
 		"deploy:bsc_test": "NETWORK=bsc_test npx hardhat run --network bsc_test scripts/deploy.js",
 		"deploy:bsc": "NETWORK=bsc npx hardhat run --network bsc scripts/deploy.js"
 	},
-	"author": "Andrei",
+	"author": "Andrei.",
 	"license": "MIT",
 	"dependencies": {
 		"@openzeppelin/contracts": "^4.0.0",

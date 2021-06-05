@@ -6,3 +6,4 @@ artifacts
 .env
 mnemonic.txt
 .openzeppelin
+*.pem

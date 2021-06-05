@@ -15,7 +15,7 @@ async function main() {
 
 	// We get the contract to deploy
 	const NFTToken = await hre.ethers.getContractFactory("GutterCats")
-	console.log("Deploying GutterCats...")
+	console.log("Deploying GutterCats.")
 
 	let network = process.env.NETWORK ? process.env.NETWORK : "rinkeby"
 

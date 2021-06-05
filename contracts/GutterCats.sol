@@ -31,18 +31,12 @@ contract GutterCats is ERC1155, Ownable {
 	using SafeMath for uint256;
 	using Strings for string;
 
-	uint256[] ids = [1, 2, 3, 4, 5];
-	uint256[] amounts = [1, 1, 1, 1, 1];
-
-	string public _baseURI =
-		"https://raw.githubusercontent.com/AndreiD/Playground/master/ai-pod/metadata/";
+	string public _baseURI = "https://github.com/nftinvesting/guttercatgang_/tree/master/j/";
 	string public _contractURI =
-		"https://raw.githubusercontent.com/AndreiD/Playground/master/ai-pod/contract_uri";
+		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/j/contract_uri";
 	mapping(uint256 => string) public _tokenURIs;
 
-	constructor() ERC1155("") {
-		mintBatch(ids, amounts, "GENESIS");
-	}
+	constructor() ERC1155(_baseURI) {}
 
 	function mint(
 		address to,

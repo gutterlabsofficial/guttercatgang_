@@ -19,7 +19,7 @@ describe("NFT", function () {
 		acc2 = signers[2]
 	})
 
-	it("simple test...", async function () {
+	it("simple test....", async function () {
 		expect(await nft.name()).to.equal("GutterCats")
 	})
 

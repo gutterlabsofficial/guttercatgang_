@@ -34,7 +34,7 @@ module.exports = {
 		mainnet: {
 			url: process.env.MAINNET_RPC,
 			gas: 4000000,
-			gasPrice: 45000000000, //45 gwei
+			gasPrice: 20000000000, //20 gwei
 			timeout: 15000,
 			accounts: [process.env.PRIVATE_KEY_MAINNET],
 		},
@@ -69,6 +69,6 @@ module.exports = {
 		timeout: 20000,
 	},
 	etherscan: {
-		apiKey: process.env.BSC_SCAP_API_KEY, //BSC_SCAP_API_KEY or ETHERSCAN_KEY
+		apiKey: process.env.ETHERSCAN_KEY, //BSC_SCAP_API_KEY or ETHERSCAN_KEY
 	},
 }
