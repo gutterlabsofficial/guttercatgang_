@@ -1,0 +1,6 @@
+MAINNET_RPC=https://eth-rinkeby.alchemyapi.io/v2/xxxxxx
+RINKEBY_RPC=https://eth-rinkeby.alchemyapi.io/v2/xxxxxx
+PRIVATE_KEY_RINKEBY="0xc56xxxxxxx"
+PRIVATE_KEY_MAINNET="0xc56xxxxx"
+ETHERSCAN_KEY="7K8Uxxxxxxx"
+COINMARKETCAP_API="d3dbxxxxxxx"
