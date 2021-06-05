@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+import "hardhat/console.sol";
+
 interface IERC20 {
 	function totalSupply() external view returns (uint256);
 
@@ -30,29 +32,68 @@ interface IERC20 {
 contract GutterCats is ERC1155, Ownable {
 	using SafeMath for uint256;
 	using Strings for string;
+	mapping(uint256 => uint256) private _totalSupply;
 
 	string public _baseURI = "https://github.com/nftinvesting/guttercatgang_/tree/master/j/";
 	string public _contractURI =
 		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/j/contract_uri";
 	mapping(uint256 => string) public _tokenURIs;
 
-	constructor() ERC1155(_baseURI) {}
+	uint256 public itemPrice; //price to adopt one cat
 
+	constructor() ERC1155(_baseURI) {
+		itemPrice = 70000000000000000; // 0.07 ETH
+	}
+
+	// sets the price for an item
+	function setItemPrice(uint256 _price) public onlyOwner {
+		itemPrice = _price;
+	}
+
+	function getItemPrice() public view returns (uint256) {
+		return itemPrice;
+	}
+
+	//adopts a cat
+	function adoptCat() public payable {
+		require(msg.value == itemPrice, "insufficient ETH");
+		adopt();
+	}
+
+	//adopts multiple cats at once
+	function adoptCats(uint256 _howMany) public payable {
+		require(msg.value == _howMany * itemPrice, "insufficient ETH");
+		require(_howMany <= 10, "max 10 cats at once");
+		for (uint256 i = 0; i < _howMany; i++) {
+			adopt();
+		}
+	}
+
+	//adopting a cat
+	function adopt() private {
+		//you would be pretty unlucky to pay the miners alot of gas
+		for (uint256 i = 0; i < 9999; i++) {
+			uint256 randID = random(0, 3000, i);
+			if (_totalSupply[randID] == 0) {
+				_totalSupply[randID] = 1;
+				_mint(msg.sender, randID, 1, "0x0000");
+				return;
+			}
+			console.log("Random number already found! is %s ...", randID);
+		}
+		revert("you're very unlucky");
+	}
+
+	//the owner can adopt a cat without paying the fee
+	//this will be used in the case the number of adopted cats > ~2500 and adopting one costs lots of gas
 	function mint(
 		address to,
 		uint256 id,
-		uint256 value,
 		bytes memory data
 	) public onlyOwner {
-		_mint(to, id, value, data);
-	}
-
-	function mintBatch(
-		uint256[] memory ids,
-		uint256[] memory amounts,
-		bytes memory data
-	) public onlyOwner {
-		_mintBatch(_msgSender(), ids, amounts, data);
+		require(_totalSupply[id] == 0, "this cat is already owned by someone");
+		_totalSupply[id] = 1;
+		_mint(to, id, 1, data);
 	}
 
 	function setBaseURI(string memory newuri) public onlyOwner {
@@ -69,14 +110,6 @@ contract GutterCats is ERC1155, Ownable {
 
 	function contractURI() public view returns (string memory) {
 		return _contractURI;
-	}
-
-	function burn(uint256 id, uint256 value) public {
-		_burn(msg.sender, id, value);
-	}
-
-	function burnBatch(uint256[] memory ids, uint256[] memory values) public {
-		_burnBatch(msg.sender, ids, values);
 	}
 
 	function uint2str(uint256 _i) internal pure returns (string memory _uintAsString) {
@@ -101,10 +134,47 @@ contract GutterCats is ERC1155, Ownable {
 		return string(bstr);
 	}
 
-	// withdraw currency accidentally sent to the smart contract
+	/**
+	 * @dev Total amount of tokens in with a given id.
+	 */
+	function totalSupply(uint256 id) public view virtual returns (uint256) {
+		return _totalSupply[id];
+	}
+
+	/**
+	 * @dev Indicates weither any token exist with a given id, or not.
+	 */
+	function exists(uint256 id) public view virtual returns (bool) {
+		return totalSupply(id) > 0;
+	}
+
+	//random number
+	function random(
+		uint256 from,
+		uint256 to,
+		uint256 salty
+	) private view returns (uint256) {
+		uint256 seed =
+			uint256(
+				keccak256(
+					abi.encodePacked(
+						block.timestamp +
+							block.difficulty +
+							((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (block.timestamp)) +
+							block.gaslimit +
+							((uint256(keccak256(abi.encodePacked(msg.sender)))) / (block.timestamp)) +
+							block.number +
+							salty
+					)
+				)
+			);
+		return seed.mod(to - from) + from;
+	}
+
+	// withdraw the earnings to pay for the artists & devs :)
 	function withdraw() public onlyOwner {
 		uint256 balance = address(this).balance;
-		address(msg.sender).transfer(balance);
+		payable(msg.sender).transfer(balance);
 	}
 
 	// reclaim accidentally sent tokens

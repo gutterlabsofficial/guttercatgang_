@@ -40,7 +40,7 @@ async function main() {
 
 	let sleepTime = 60000 //1min sleep
 	if (network !== "mainnet") {
-		sleepTime = 30000
+		sleepTime = 40000
 	}
 	await sleep(sleepTime)
 	await hre.run("verify:verify", {

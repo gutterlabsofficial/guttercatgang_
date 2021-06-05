@@ -20,45 +20,49 @@ describe("NFT", function () {
 	})
 
 	it("simple test....", async function () {
-		expect(await nft.name()).to.equal("GutterCats")
+		expect(await nft.getItemPrice()).to.equal("70000000000000000")
 	})
 
-	it("simple minting test", async function () {
-		expect(await nft.balanceOf(acc1.address)).to.equal(0)
-		await nft.mint(acc1.address)
-		expect(await nft.balanceOf(acc1.address)).to.equal(1)
+	it("adopting a cat works", async function () {
+		await expect(nft.connect(acc1).adoptCat({ value: web3.utils.toWei("0.07", "ether") })).to.emit(
+			nft,
+			"TransferSingle"
+		)
 	})
 
-	it("complex minting test", async function () {
-		expect(await nft.balanceOf(acc1.address)).to.equal(0)
-		await nft.mint(acc1.address)
-		expect(await nft.balanceOf(acc1.address)).to.equal(1)
-		await nft.mint(acc1.address)
-		expect(await nft.balanceOf(acc1.address)).to.equal(2)
-		await nft.mint(acc2.address)
-		expect(await nft.balanceOf(acc2.address)).to.equal(1)
+	it("adopting multiple cats works", async function () {
+		await expect(
+			nft.connect(acc1).adoptCats(10, { value: web3.utils.toWei("0.7", "ether") })
+		).to.emit(nft, "TransferSingle")
 	})
 
-	it("uri test", async function () {
-		await nft.mint(acc1.address)
-		await nft.mint(acc1.address)
-		await nft.mint(acc1.address)
-		expect(await nft.tokenURI(2)).to.equal("https://nft..../2")
+	// it("it will retry if random fails", async function () {
+	// 	for (i = 0; i < 3000; i++) {
+	// 		await nft.connect(acc1).adoptCat({ value: web3.utils.toWei("0.07", "ether") })
+	// 	}
+	// })
+
+	it("owner can withdraw the ETH", async function () {
+		const tracker = await balance.tracker(owner.address)
+		let ownerInitialBalance = Number(await tracker.get("wei"))
+		await expect(
+			nft.connect(acc1).adoptCats(10, { value: web3.utils.toWei("0.7", "ether") })
+		).to.emit(nft, "TransferSingle")
+		await nft.withdraw()
+		let ownerFinalBalance = Number(await tracker.get("wei"))
+		expect(ownerFinalBalance - ownerInitialBalance).to.be.greaterThan(
+			Number(web3.utils.toWei("0.699", "ether"))
+		)
 	})
 
-	it("change uri test", async function () {
-		await nft.mint(acc1.address)
-		await nft.mint(acc1.address)
-		await nft.mint(acc1.address)
-		await nft.changeBaseURI("https://nft2.../")
-		expect(await nft.tokenURI(2)).to.equal("https://nft2.../2")
+	it("can't adopt a cat with less funds", async function () {
+		await expect(
+			nft.connect(acc1).adoptCat({ value: web3.utils.toWei("0.069", "ether") })
+		).to.be.revertedWith("insufficient ETH")
 	})
-
-	it("transfer ownership test", async function () {
-		expect(await nft.balanceOf(acc2.address)).to.equal(0)
-		await nft.mint(acc1.address)
-		expect(await nft.balanceOf(acc1.address)).to.equal(1)
-		await nft.connect(acc1).transferFrom(acc1.address, acc2.address, 0)
-		expect(await nft.balanceOf(acc2.address)).to.equal(1)
+	it("can't adopt a 10 cats with less funds", async function () {
+		await expect(
+			nft.connect(acc1).adoptCat({ value: web3.utils.toWei("0.69", "ether") })
+		).to.be.revertedWith("insufficient ETH")
 	})
 })
