@@ -38,9 +38,9 @@ async function main() {
 
 	console.log("Contract deployed to:", dep.address)
 
-	let sleepTime = 60000 //1min sleep
+	let sleepTime = 65000 //1min sleep
 	if (network !== "mainnet") {
-		sleepTime = 40000
+		sleepTime = 45000
 	}
 	await sleep(sleepTime)
 	await hre.run("verify:verify", {
