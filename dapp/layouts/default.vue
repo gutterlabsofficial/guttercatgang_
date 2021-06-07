@@ -18,6 +18,17 @@
         </nuxt-link>
       </v-toolbar-title>
       <div class="flex-grow-1"></div>
+
+      <v-btn
+        href="https://discord.com/invite/Hk3keWqApr"
+        target="_blank"
+        fab
+        text
+        redtext
+      >
+        <v-icon>mdi-discord</v-icon>
+      </v-btn>
+
       <v-btn
         href="https://twitter.com/guttercatgang"
         target="_blank"

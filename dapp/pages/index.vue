@@ -16,16 +16,23 @@
         <v-btn
           style="max-height: 58px; min-width: 250px"
           x-large
-          outlined
           class="ma-5"
           input
+          outlined
           @click="dialogAdoptMany = true"
         >
           ADOPT MANY
         </v-btn>
       </div>
-      <div class="mt-5 pa-5 text-xs-center">
-        <img src="/cats_gif.gif" alt="gutter cats gif" />
+      <div
+        class="ma-5 pa-5 d-flex flex-column justify-space-between align-center"
+      >
+        <img
+          class="ma-5 pa-5"
+          style="max-width: 350px"
+          src="/cats_gif.gif"
+          alt="gutter cats gif"
+        />
       </div>
     </form>
 
