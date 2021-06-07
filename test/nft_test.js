@@ -36,11 +36,11 @@ describe("NFT", function () {
 		).to.emit(nft, "TransferSingle")
 	})
 
-	// it("it will retry if random fails", async function () {
-	// 	for (i = 0; i < 3000; i++) {
-	// 		await nft.connect(acc1).adoptCat({ value: web3.utils.toWei("0.07", "ether") })
-	// 	}
-	// })
+	it("it will retry if random fails", async function () {
+		for (i = 0; i < 5; i++) {
+			await nft.connect(acc1).adoptCats(10, { value: web3.utils.toWei("0.7", "ether") })
+		}
+	})
 
 	it("owner can withdraw the ETH", async function () {
 		const tracker = await balance.tracker(owner.address)

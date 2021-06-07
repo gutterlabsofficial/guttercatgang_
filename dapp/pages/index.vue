@@ -3,7 +3,7 @@
     <form class="search-form" @submit.prevent="searchForToken">
       <div class="search-form__row">
         <v-btn
-          style="max-height: 58px"
+          style="max-height: 58px; min-width: 250px"
           outlined
           x-large
           class="ma-5"
@@ -14,7 +14,7 @@
         </v-btn>
 
         <v-btn
-          style="max-height: 58px"
+          style="max-height: 58px; min-width: 250px"
           x-large
           outlined
           class="ma-5"
@@ -23,6 +23,9 @@
         >
           ADOPT MANY
         </v-btn>
+      </div>
+      <div class="mt-5 pa-5 text-xs-center">
+        <img src="/cats_gif.gif" alt="gutter cats gif" />
       </div>
     </form>
 
@@ -136,8 +139,8 @@
     </v-dialog>
 
     <v-dialog
-      class="ma-5 pa-5"
       v-model="dialogError"
+      class="ma-5 pa-5"
       persistent
       max-width="600px"
     >
@@ -162,6 +165,7 @@
       </v-card>
     </v-dialog>
 
+    <!-- not used -->
     <v-row v-if="showRandNFTs" dense>
       <v-col v-for="(image, index) in randNFTs" :key="index">
         <v-hover v-slot="{ hover }">
@@ -217,11 +221,11 @@ export default {
       this.ethers = new ethers.providers.Web3Provider(window.ethereum)
     }
     this.initialize()
-    this.randomNFTs()
-    const that = this
-    setInterval(function () {
-      that.randomNFTs()
-    }, 30000)
+    //this.randomNFTs()
+    //const that = this
+    //setInterval(function () {
+    //that.randomNFTs()
+    //}, 30000)
   },
   methods: {
     initialize() {
@@ -334,7 +338,7 @@ export default {
       }
       const overrides = {
         value: String(Number(this.howManyCats) * Number(this.itemPriceWei)),
-        gasLimit: 300000,
+        gasLimit: 990000,
       }
 
       try {
