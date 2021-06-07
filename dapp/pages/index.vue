@@ -3,7 +3,8 @@
     <form class="search-form" @submit.prevent="searchForToken">
       <div class="search-form__row">
         <v-btn
-          style="max-height: 48px"
+          style="max-height: 58px"
+          outlined
           x-large
           class="ma-5"
           input
@@ -13,8 +14,9 @@
         </v-btn>
 
         <v-btn
-          style="max-height: 48px"
+          style="max-height: 58px"
           x-large
+          outlined
           class="ma-5"
           input
           @click="dialogAdoptMany = true"
@@ -133,11 +135,16 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogError" persistent max-width="600px">
+    <v-dialog
+      class="ma-5 pa-5"
+      v-model="dialogError"
+      persistent
+      max-width="600px"
+    >
       <v-card>
-        <v-card-text>
+        <v-card-title>
           {{ errorText }}
-        </v-card-text>
+        </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
 
@@ -158,12 +165,7 @@
     <v-row v-if="showRandNFTs" dense>
       <v-col v-for="(image, index) in randNFTs" :key="index">
         <v-hover v-slot="{ hover }">
-          <v-card
-            :elevation="hover ? 3 : 1"
-            class="ma-5"
-            max-width="374"
-            @click="clickedNFT(index)"
-          >
+          <v-card :elevation="hover ? 3 : 1" class="ma-5" max-width="374">
             <v-img :src="image" alt="A cool looking cat" contain> </v-img>
           </v-card>
         </v-hover>
@@ -313,7 +315,7 @@ export default {
     },
     async adoptMultiple() {
       if (this.howManyCats > 10) {
-        this.errorText = 'maximum 10 cats at once per adoption'
+        this.errorText = 'maximum 10 cats at once please'
         this.dialogError = true
         return
       }
@@ -379,5 +381,9 @@ export default {
 .theme--dark.v-input input,
 .theme--dark.v-input textarea {
   color: #ea201c;
+}
+
+.v-card {
+  background-color: #333 !important;
 }
 </style>
