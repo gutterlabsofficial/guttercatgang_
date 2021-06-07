@@ -154,6 +154,21 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-row v-if="showRandNFTs" dense>
+      <v-col v-for="(image, index) in randNFTs" :key="index">
+        <v-hover v-slot="{ hover }">
+          <v-card
+            :elevation="hover ? 3 : 1"
+            class="ma-5"
+            max-width="374"
+            @click="clickedNFT(index)"
+          >
+            <v-img :src="image" alt="A cool looking cat" contain> </v-img>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -167,13 +182,13 @@ export default {
   auth: false,
   data() {
     return {
+      randNFTs: [],
       id: null,
       tokenID: null,
       contract: null,
       contractAddress: null,
       itemPriceETH: null,
       itemPriceWei: null,
-      nft: null,
       isOwned: false,
       ethers: null,
       signer: null,
@@ -183,6 +198,7 @@ export default {
       dialogConfirmGasCost: false,
       dialogError: false,
       howManyCats: 2,
+      showRandNFTs: false,
     }
   },
   mounted() {
@@ -199,19 +215,27 @@ export default {
       this.ethers = new ethers.providers.Web3Provider(window.ethereum)
     }
     this.initialize()
+    this.randomNFTs()
+    const that = this
+    setInterval(function () {
+      that.randomNFTs()
+    }, 30000)
   },
   methods: {
     initialize() {
       this.isOwned = false
-      this.loadNFT(this.id)
       this.loadContract()
     },
-    loadNFT(id) {
-      this.$axios
-        .$get('https://hyp.s3.eu-west-2.amazonaws.com/json/' + id)
-        .then((response) => {
-          this.nft = response
-        })
+    clickedNFT(index) {
+      this.$router.push('/nft?id=' + index)
+    },
+    randomNFTs() {
+      for (let i = 1; i <= 3000; ++i)
+        this.randNFTs[i] =
+          'https://guttercatgang.s3.us-east-2.amazonaws.com/i/' + i + '.png'
+      this.randNFTs = this.shuffle(this.randNFTs)
+      this.randNFTs = this.randNFTs.slice(1, 10)
+      this.showRandNFTs = true
     },
     async loadContract() {
       this.contract = new ethers.Contract(
@@ -222,12 +246,6 @@ export default {
 
       this.itemPriceWei = await this.contract.getItemPrice()
       this.itemPriceETH = EthersUtils.formatEther(this.itemPriceWei)
-
-      const tokenSupply = await this.contract.tokenSupply(this.id)
-      if (Number(tokenSupply) !== 0) {
-        console.warn('this token is already owned')
-        this.isOwned = true
-      }
     },
     async checkMetamaskConnected() {
       if (window.ethereum) {
@@ -331,6 +349,20 @@ export default {
           this.$toast.error(err.message)
         }
       }
+    },
+    shuffle(array) {
+      let tmp
+      let current
+      let top = array.length
+
+      if (top)
+        while (--top) {
+          current = Math.floor(Math.random() * (top + 1))
+          tmp = array[current]
+          array[current] = array[top]
+          array[top] = tmp
+        }
+      return array
     },
   },
 }

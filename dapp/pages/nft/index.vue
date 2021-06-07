@@ -23,13 +23,7 @@
       </form>
 
       <v-card elevation="0" class="model-block">
-        <v-img
-          v-if="!nft.animation_url"
-          :src="nft.image"
-          max-height="600"
-          contain
-        >
-        </v-img>
+        <v-img :src="nft.image" max-height="600" contain> </v-img>
 
         <v-flex xs12 sm8 md6 class="heading-wrap" style="max-width: 900px">
           <v-row align="center" style="margin-top: 60px">
@@ -41,24 +35,6 @@
                 >mdi-ethereum</v-icon
               >
               <span v-if="itemPriceETH" class="body-1">{{ itemPriceETH }}</span>
-
-              <v-btn
-                v-if="itemPriceETH"
-                width="150px"
-                elevation="0"
-                class="ml-5 redtext"
-                @click="buyNow()"
-                >buy</v-btn
-              >
-
-              <v-btn
-                v-if="!itemPriceETH"
-                width="150px"
-                elevation="0"
-                class="ml-5 redtext"
-                @click="buyNow()"
-                >buy</v-btn
-              >
             </section>
 
             <section v-if="isOwned">
@@ -156,7 +132,7 @@ export default {
     },
     loadNFT(id) {
       this.$axios
-        .$get('https://hyp.s3.eu-west-2.amazonaws.com/json/' + id)
+        .$get('https://guttercatgang.s3.us-east-2.amazonaws.com/j/' + id)
         .then((response) => {
           this.nft = response
         })
@@ -170,12 +146,6 @@ export default {
 
       this.itemPriceWei = await this.contract.getItemPrice()
       this.itemPriceETH = EthersUtils.formatEther(this.itemPriceWei)
-
-      const tokenSupply = await this.contract.tokenSupply(this.id)
-      if (Number(tokenSupply) !== 0) {
-        console.warn('this token is already owned')
-        this.isOwned = true
-      }
     },
     async buyNow() {
       this.ethers = new ethers.providers.Web3Provider(window.ethereum)
@@ -259,7 +229,7 @@ export default {
 .styled-input label[for] {
   height: 48px;
 }
-// .v-list-item__subtitle {
-//   font-size: 0.8em !important;
-// }
+.v-list-item__subtitle {
+  font-size: 0.8em !important;
+}
 </style>
