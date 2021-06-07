@@ -6,8 +6,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-import "hardhat/console.sol";
-
 interface IERC20 {
 	function totalSupply() external view returns (uint256);
 
@@ -32,12 +30,12 @@ interface IERC20 {
 contract GutterCats is ERC1155, Ownable {
 	using SafeMath for uint256;
 	using Strings for string;
+	uint256 public adoptedCats;
 	mapping(uint256 => uint256) private _totalSupply;
 
-	string public _baseURI =
-		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/j/";
+	string public _baseURI = "https://guttercatgang.s3.us-east-2.amazonaws.com/j/";
 	string public _contractURI =
-		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/j/contract_uri";
+		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/contract_uri";
 	mapping(uint256 => string) public _tokenURIs;
 
 	uint256 public itemPrice; //price to adopt one cat
@@ -79,9 +77,9 @@ contract GutterCats is ERC1155, Ownable {
 			if (_totalSupply[randID] == 0) {
 				_totalSupply[randID] = 1;
 				_mint(msg.sender, randID, 1, "0x0000");
+				adoptedCats = adoptedCats + 1;
 				return;
 			}
-			console.log("Random number already found! is %s ...", randID);
 		}
 		revert("you're very unlucky");
 	}
@@ -95,6 +93,7 @@ contract GutterCats is ERC1155, Ownable {
 	) public onlyOwner {
 		require(_totalSupply[id] == 0, "this cat is already owned by someone");
 		_totalSupply[id] = 1;
+		adoptedCats = adoptedCats + 1;
 		_mint(to, id, 1, data);
 	}
 
