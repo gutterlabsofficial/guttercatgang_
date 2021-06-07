@@ -152,18 +152,6 @@ tr:hover {
     }
   }
 }
-
-// 3D Model
-.model-viewer {
-  width: 900px;
-  height: 600px;
-  max-width: 100%;
-  object-fit: contain;
-  @media (max-width: 420px) {
-    height: 375px;
-  }
-}
-
 .model-block {
   padding: 0 15px;
 

@@ -30,17 +30,6 @@
           contain
         >
         </v-img>
-        <model-viewer
-          v-if="nft.animation_url"
-          data-js-focus-visible
-          class="model-viewer"
-          style=""
-          :src="nft.animation_url"
-          :alt="nft.description"
-          auto-rotate
-          camera-controls
-          preload
-        ></model-viewer>
 
         <v-flex xs12 sm8 md6 class="heading-wrap" style="max-width: 900px">
           <v-row align="center" style="margin-top: 60px">
@@ -122,7 +111,6 @@
   </v-layout>
 </template>
 <script>
-import '@google/model-viewer/dist/model-viewer'
 import { ethers } from 'ethers'
 import { CONTRACT_ADDR, RPC_PROVIDER, NETWORK_ID } from '../../constants'
 import { ERC1155_ABI } from '../../erc1155_abi'

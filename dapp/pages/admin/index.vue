@@ -52,7 +52,6 @@
   </v-layout>
 </template>
 <script>
-import '@google/model-viewer/dist/model-viewer'
 import { ethers } from 'ethers'
 import { CONTRACT_ADDR } from '../../constants'
 import { ERC1155_ABI } from '../../erc1155_abi'

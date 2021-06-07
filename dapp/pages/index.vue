@@ -158,7 +158,6 @@
 </template>
 
 <script>
-import '@google/model-viewer/dist/model-viewer'
 import { ethers } from 'ethers'
 import { CONTRACT_ADDR, RPC_PROVIDER, NETWORK_ID } from '../constants'
 import { ERC1155_ABI } from '../erc1155_abi'
