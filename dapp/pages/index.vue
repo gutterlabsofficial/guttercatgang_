@@ -52,6 +52,9 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+
+            Please make sure you set the gas limit high enough otherwise the
+            transaction might fail.
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -66,80 +69,11 @@
                 errorText = 'maximum 10 cats at once per adoption'
                 dialogError = true
               } else {
-                dialogConfirmGasCost = true
+                adoptMultiple()
               }
             "
           >
             ADOPT
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="dialogConfirmGasCost" max-width="600px">
-      <v-card>
-        <v-card-text>
-          Please make sure you set the gas limit high enough otherwise the
-          transaction might fail
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn
-            text
-            color="darken-1"
-            @click="
-              dialogAdoptMany = false
-              dialogConfirmGasCost = false
-              adoptMultiple()
-            "
-          >
-            I CONFIRM
-          </v-btn>
-
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="
-              dialogAdoptMany = false
-              dialogConfirmGasCost = false
-            "
-          >
-            CANCEL
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="dialogConfirmGasCost" max-width="600px">
-      <v-card>
-        <v-card-text>
-          Please make sure you set the gas limit high enough otherwise the
-          transaction might fail
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn
-            text
-            color="darken-1"
-            @click="
-              dialogConfirmGasCost = false
-              adoptMultiple()
-            "
-          >
-            I CONFIRM
-          </v-btn>
-
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="
-              dialogAdoptMany = false
-              dialogConfirmGasCost = false
-            "
-          >
-            CANCEL
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -208,7 +142,6 @@ export default {
       provider: null,
       errorText: '',
       dialogAdoptMany: false,
-      dialogConfirmGasCost: false,
       dialogError: false,
       howManyCats: 2,
       showRandNFTs: false,

@@ -12,7 +12,7 @@
           <img
             src="/logo.png"
             class="logo-img"
-            style="height: 60px"
+            style="height: 150px"
             alt="guttercatgang logo"
           />
         </nuxt-link>
