@@ -4,7 +4,6 @@
       <div class="search-form__row">
         <v-btn
           style="max-height: 48px"
-          color="#450302"
           x-large
           class="ma-5"
           input
@@ -15,7 +14,6 @@
 
         <v-btn
           style="max-height: 48px"
-          color="#450302"
           x-large
           class="ma-5"
           input
@@ -46,9 +44,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialogAdoptMany = false">
-            Close
-          </v-btn>
+          <v-btn text @click="dialogAdoptMany = false"> Close </v-btn>
           <v-btn
             color="blue darken-1"
             text
@@ -112,7 +108,14 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text color="darken-1" @click="adoptMultiple()">
+          <v-btn
+            text
+            color="darken-1"
+            @click="
+              dialogConfirmGasCost = false
+              adoptMultiple()
+            "
+          >
             I CONFIRM
           </v-btn>
 
@@ -155,30 +158,180 @@
 </template>
 
 <script>
+import '@google/model-viewer/dist/model-viewer'
+import { ethers } from 'ethers'
+import { CONTRACT_ADDR, RPC_PROVIDER, NETWORK_ID } from '../constants'
+import { ERC1155_ABI } from '../erc1155_abi'
+const EthersUtils = require('ethers').utils
+
 export default {
   auth: false,
   data() {
     return {
+      id: null,
+      tokenID: null,
+      contract: null,
+      contractAddress: null,
+      itemPriceETH: null,
+      itemPriceWei: null,
+      nft: null,
+      isOwned: false,
+      ethers: null,
+      signer: null,
+      provider: null,
       errorText: '',
       dialogAdoptMany: false,
       dialogConfirmGasCost: false,
       dialogError: false,
-      tokenID: '',
       howManyCats: 2,
     }
   },
-  mounted() {},
+  mounted() {
+    this.id = this.$route.query.id
+    this.contractAddress = CONTRACT_ADDR
+    if (!window.ethereum) {
+      this.provider = 'not_web3'
+      this.ethers = new ethers.providers.JsonRpcProvider(
+        RPC_PROVIDER,
+        NETWORK_ID
+      )
+    } else {
+      this.provider = 'web3'
+      this.ethers = new ethers.providers.Web3Provider(window.ethereum)
+    }
+    this.initialize()
+  },
   methods: {
-    adoptOne() {
-      console.log('adopting one cat')
+    initialize() {
+      this.isOwned = false
+      this.loadNFT(this.id)
+      this.loadContract()
     },
-    adoptMultiple() {
+    loadNFT(id) {
+      this.$axios
+        .$get('https://hyp.s3.eu-west-2.amazonaws.com/json/' + id)
+        .then((response) => {
+          this.nft = response
+        })
+    },
+    async loadContract() {
+      this.contract = new ethers.Contract(
+        CONTRACT_ADDR,
+        ERC1155_ABI,
+        this.ethers
+      )
+
+      this.itemPriceWei = await this.contract.getItemPrice()
+      this.itemPriceETH = EthersUtils.formatEther(this.itemPriceWei)
+
+      const tokenSupply = await this.contract.tokenSupply(this.id)
+      if (Number(tokenSupply) !== 0) {
+        console.warn('this token is already owned')
+        this.isOwned = true
+      }
+    },
+    async checkMetamaskConnected() {
+      if (window.ethereum) {
+        await window.ethereum.enable()
+        this.ethers = new ethers.providers.Web3Provider(window.ethereum)
+
+        this.signer = this.ethers.getSigner()
+        this.account = await this.signer.getAddress()
+        this.balance = await this.signer.getBalance()
+        this.ethBalance = await ethers.utils.formatEther(this.balance)
+        this.signer = this.ethers.getSigner()
+        const addr = await this.signer.getAddress()
+        this.walletBtnText =
+          addr.substr(0, 7) + '...' + addr.substr(addr.length - 5, addr.length)
+
+        const chainId = this.ethers._network.chainId
+        this.$store.commit('setSelectedAddress', addr)
+        this.$store.commit('setNetworkID', Number(chainId))
+
+        if (chainId !== 1) {
+          this.showNonMainnetWarning = true
+        }
+        return true
+      } else {
+        this.$router.push('/other/install_metamask')
+        return false
+      }
+    },
+    loadNewURI() {
+      window.location.replace('/nft?id=' + this.tokenID)
+    },
+    viewOnOpenSea() {
+      const url =
+        'https://opensea.io/assets/' + this.contractAddress + '/' + this.id
+      window.open(url, '_blank')
+    },
+    async adoptOne() {
+      console.log('adopting one cat')
+      this.ethers = new ethers.providers.Web3Provider(window.ethereum)
+      this.signer = this.ethers.getSigner()
+      this.contract = new ethers.Contract(
+        CONTRACT_ADDR,
+        ERC1155_ABI,
+        this.signer
+      )
+
+      const res = await this.checkMetamaskConnected()
+      if (!res) {
+        return
+      }
+      const overrides = { value: this.itemPriceWei, gasLimit: 150000 }
+
+      try {
+        const tx = await this.contract.adoptCat(overrides)
+        if (tx.hash) {
+          this.$toast.info('Transaction submitted successfully')
+        }
+      } catch (err) {
+        if (err.message.includes('denied')) {
+          this.$toast.info('you canceled the transaction')
+        } else {
+          this.$toast.error(err.message)
+        }
+      }
+    },
+    async adoptMultiple() {
       if (this.howManyCats > 10) {
         this.errorText = 'maximum 10 cats at once per adoption'
         this.dialogError = true
         return
       }
       console.log('adopting multiple cats')
+      this.ethers = new ethers.providers.Web3Provider(window.ethereum)
+      this.signer = this.ethers.getSigner()
+      this.contract = new ethers.Contract(
+        CONTRACT_ADDR,
+        ERC1155_ABI,
+        this.signer
+      )
+
+      const res = await this.checkMetamaskConnected()
+      if (!res) {
+        return
+      }
+      const overrides = {
+        value: String(Number(this.howManyCats) * Number(this.itemPriceWei)),
+        gasLimit: 300000,
+      }
+
+      try {
+        const tx = await this.contract.adoptCats(this.howManyCats, overrides)
+        if (tx.hash) {
+          this.$toast.info(
+            'Transaction submitted successfully. You should check your opensea wallet after it gets confirmed'
+          )
+        }
+      } catch (err) {
+        if (err.message.includes('denied')) {
+          this.$toast.info('you canceled the transaction')
+        } else {
+          this.$toast.error(err.message)
+        }
+      }
     },
   },
 }

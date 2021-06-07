@@ -38,7 +38,7 @@ contract GutterCats is ERC1155, Ownable {
 		"https://raw.githubusercontent.com/nftinvesting/guttercatgang_/master/contract_uri";
 	mapping(uint256 => string) public _tokenURIs;
 
-	uint256 public itemPrice; //price to adopt one cat
+	uint256 public itemPrice; //price to adopt one cat, configurable
 
 	constructor() ERC1155(_baseURI) {
 		itemPrice = 70000000000000000; // 0.07 ETH

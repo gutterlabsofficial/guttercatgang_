@@ -1,7 +1,7 @@
 @import 'reset';
 
 .application {
-  font-family: 'Bangers', cursive !important;
+  font-family: 'Special Elite', cursive !important;
   color: #ad6bf3;
 }
 
@@ -14,8 +14,27 @@
 #app tbody,
 #app tr,
 #app td {
-  font-family: 'Bangers', cursive !important;
-  color: #ad6bf3;
+  font-family: 'Special Elite', cursive !important;
+  color: #ddd;
+  /* Location of the image */
+  //   background-image: url(/cat_saloon.jpeg);
+
+  //   /* Background image is centered vertically and horizontally at all times */
+  //   background-position: center center;
+
+  //   /* Background image doesn’t tile */
+  //   background-repeat: no-repeat;
+
+  //   /* Background image is fixed in the viewport so that it doesn’t move when
+  // the content’s height is greater than the image’s height */
+  //   background-attachment: fixed;
+
+  //   /* This is what makes the background image rescale based
+  // on the container’s size */
+  //   background-size: cover;
+
+  /* Set a background color that will be displayed
+while the background image is loading */
 }
 
 .toasted {
@@ -24,24 +43,11 @@
 
 .redtext {
   font-family: 'Bangers', cursive !important;
-  color: #ea201c;
 }
 
 .v-card {
   background-color: transparent !important;
   border-color: transparent !important;
-}
-
-.darkred {
-  color: #450302 !important;
-}
-
-.darkredbg {
-  background-color: #ad6bf3;
-}
-
-.theme--dark.v-input {
-  color: #ad6bf3 !important;
 }
 
 .page-enter-active,
@@ -60,12 +66,10 @@
 
 .navigation-drawer__border {
   width: 10px !important;
-  background-color: red !important;
 }
 
 a {
   text-decoration: none;
-  color: #cfd8dc;
 }
 
 a:hover {
@@ -86,11 +90,6 @@ tr:hover {
 
 [v-cloak]::before {
   content: ' ';
-}
-
-.theme--dark.v-input input,
-.theme--dark.v-input textarea {
-  color: #ad6bf3 !important;
 }
 
 // App Nan

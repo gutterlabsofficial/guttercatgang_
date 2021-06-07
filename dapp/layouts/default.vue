@@ -39,8 +39,7 @@
     <v-footer v-if="showNonMainnetWarning" color="transparent" app>
       <v-card class="flex" flat>
         <v-card-text class="red white--text text-center">
-          <strong>Warning!</strong> Not connected to Ethereum Mainnet (network
-          ID: {{ $store.state.networkID }})
+          <strong>Warning!</strong> Not connected to Ethereum Mainnet
         </v-card-text>
       </v-card>
     </v-footer>
