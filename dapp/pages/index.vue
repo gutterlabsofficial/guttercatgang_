@@ -43,13 +43,17 @@
         <p v-if="txHash" style="text-align: center">
           You can check your transaction status
           <span style="font-weight: bold"
-            ><a href="`https://etherscan.io/tx/${txHash}`">here</a></span
+            ><a target="_blank" :href="`https://etherscan.io/tx/${txHash}`"
+              >here</a
+            ></span
           >
         </p>
         <p v-if="txHash" style="text-align: center">
           In a few minutes, your Gutter Cat will show up in Opensea
           <span style="font-weight: bold">
-            <a href="https://opensea.io/collections/guttercatgang"
+            <a
+              target="_blank"
+              href="https://opensea.io/collections/guttercatgang"
               >opensea.io/collections/guttercatgang</a
             ></span
           >
