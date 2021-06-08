@@ -28,8 +28,10 @@
         class="ma-5 pa-5 d-flex flex-column justify-space-between align-center"
       >
         <p class="ma-5" style="text-align: center">
-          You can adopt a minimum of 1 and maximum of 10 Gutter Cats. Each
-          Gutter Cat cost {{ itemPriceETH }} ETH + gas
+          You can adopt a minimum of 1 and maximum of 10 Gutter Cats.
+          <span v-if="itemPriceETH"
+            >Each Gutter Cat cost {{ itemPriceETH }} ETH + gas
+          </span>
         </p>
 
         <p v-if="adoptedCats">{{ adoptedCats }}/3000 Gutter Cats Adopted</p>
