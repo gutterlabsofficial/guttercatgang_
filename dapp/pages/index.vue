@@ -314,7 +314,7 @@ export default {
       }
       const overrides = {
         value: String(Number(this.howManyCats) * Number(this.itemPriceWei)),
-        gasLimit: 990000,
+        gasLimit: 1490000,
       }
 
       try {
