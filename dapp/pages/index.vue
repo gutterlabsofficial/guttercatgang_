@@ -277,6 +277,7 @@ export default {
         if (tx.hash) {
           this.$toast.info('Transaction submitted successfully')
         }
+        this.txHash = tx.hash
       } catch (err) {
         if (err.message.includes('denied')) {
           this.$toast.info('you canceled the transaction')
