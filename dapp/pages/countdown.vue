@@ -82,7 +82,7 @@ export default {
         }
         setTimeout(this.countdown, this.speed)
       } else {
-        window.location.href = 'http://guttercatgang.com/'
+        window.location.href = 'https://dapp.guttercatgang.com/'
         this.currentTime = null
       }
     },
