@@ -165,7 +165,7 @@ export default {
       contractAddress: null,
       itemPriceETH: null,
       itemPriceWei: null,
-      txHash: '0x0123..',
+      txHash: null,
       isOwned: false,
       ethers: null,
       signer: null,
