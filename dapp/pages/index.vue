@@ -2,7 +2,8 @@
   <v-container>
     <form class="search-form" @submit.prevent="searchForToken">
       <div class="search-form__row">
-        <v-btn
+        <p>Thank you for everyone that adopted a cat or more.</p>
+        <!-- <v-btn
           style="max-height: 58px; min-width: 250px"
           outlined
           x-large
@@ -11,7 +12,7 @@
           @click="adoptOne()"
         >
           ADOPT ONE
-        </v-btn>
+        </v-btn> -->
 
         <!-- <v-btn
           style="max-height: 58px; min-width: 250px"
