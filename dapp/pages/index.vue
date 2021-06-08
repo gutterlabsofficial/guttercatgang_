@@ -13,7 +13,7 @@
           ADOPT ONE
         </v-btn>
 
-        <v-btn
+        <!-- <v-btn
           style="max-height: 58px; min-width: 250px"
           x-large
           class="ma-5"
@@ -22,7 +22,7 @@
           @click="dialogAdoptMany = true"
         >
           ADOPT MANY
-        </v-btn>
+        </v-btn> -->
       </div>
       <div
         class="ma-5 pa-5 d-flex flex-column justify-space-between align-center"
