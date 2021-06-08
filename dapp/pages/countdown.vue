@@ -39,7 +39,11 @@
 
         <section v-if="!currentTime">
           <div class="countdown-row__logo">
-            <img src="/logo.png" style="size: 150px" alt="hyperpunks logo" />
+            <img
+              src="/logo.png"
+              style="size: 150px"
+              alt="gutter cat gang logo"
+            />
           </div>
           <br />
           <span class="countdown-row__title">time is up!</span>
