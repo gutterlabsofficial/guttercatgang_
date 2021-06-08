@@ -39,7 +39,7 @@
         <v-icon>mdi-twitter</v-icon>
       </v-btn>
 
-      <v-btn class="ma-2" text @click="metamaskButtonClicked()">{{
+      <v-btn color="red" class="ma-2" @click="metamaskButtonClicked()">{{
         walletBtnText
       }}</v-btn>
     </v-app-bar>
