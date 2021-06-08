@@ -27,12 +27,36 @@
       <div
         class="ma-5 pa-5 d-flex flex-column justify-space-between align-center"
       >
+        <p class="ma-5" style="text-align: center">
+          You can adopt a minimum of 1 and maximum of 10 Gutter Cats. Each
+          Gutter Cat cost {{ itemPriceETH }} ETH + gas
+        </p>
+
+        <p v-if="adoptedCats">{{ adoptedCats }}/3000 Gutter Cats Adopted</p>
         <img
           class="ma-5 pa-5"
           style="max-width: 350px"
           src="/cats_gif.gif"
           alt="gutter cats gif"
         />
+
+        <p v-if="txHash" style="text-align: center">
+          You can check your transaction status
+          <span style="font-weight: bold"
+            ><a href="`https://etherscan.io/tx/${txHash}`">here</a></span
+          >
+        </p>
+        <p v-if="txHash" style="text-align: center">
+          In a few minutes, your Gutter Cat will show up in Opensea
+          <span style="font-weight: bold">
+            <a href="https://opensea.io/collections/guttercatgang"
+              >opensea.io/collections/guttercatgang</a
+            ></span
+          >
+        </p>
+        <p v-if="txHash" class="mt-5" style="text-align: center">
+          Keep it Gutta!
+        </p>
       </div>
     </form>
 
@@ -53,8 +77,8 @@
               </v-col>
             </v-row>
 
-            Please make sure you set the gas limit high enough otherwise the
-            transaction might fail.
+            Please increase the gas limit to have a higher likelihood of the
+            transaction being successful.
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -131,11 +155,13 @@ export default {
     return {
       randNFTs: [],
       id: null,
+      adoptedCats: null,
       tokenID: null,
       contract: null,
       contractAddress: null,
       itemPriceETH: null,
       itemPriceWei: null,
+      txHash: '0x0123..',
       isOwned: false,
       ethers: null,
       signer: null,
@@ -192,6 +218,7 @@ export default {
 
       this.itemPriceWei = await this.contract.getItemPrice()
       this.itemPriceETH = EthersUtils.formatEther(this.itemPriceWei)
+      this.adoptedCats = await this.contract.adoptedCats()
     },
     async checkMetamaskConnected() {
       if (window.ethereum) {
@@ -230,6 +257,7 @@ export default {
     },
     async adoptOne() {
       console.log('adopting one cat')
+      this.txHash = null
       this.ethers = new ethers.providers.Web3Provider(window.ethereum)
       this.signer = this.ethers.getSigner()
       this.contract = new ethers.Contract(
@@ -258,6 +286,7 @@ export default {
       }
     },
     async adoptMultiple() {
+      this.txHash = null
       if (this.howManyCats > 10) {
         this.errorText = 'maximum 10 cats at once please'
         this.dialogError = true
@@ -287,6 +316,7 @@ export default {
           this.$toast.info(
             'Transaction submitted successfully. You should check your opensea wallet after it gets confirmed'
           )
+          this.txHash = tx.hash
         }
       } catch (err) {
         if (err.message.includes('denied')) {

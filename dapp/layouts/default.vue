@@ -20,7 +20,7 @@
       <div class="flex-grow-1"></div>
 
       <v-btn
-        href="https://discord.com/invite/Hk3keWqApr"
+        href="https://discord.com/invite/guttercatgang"
         target="_blank"
         fab
         text
