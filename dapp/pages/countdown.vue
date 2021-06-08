@@ -5,36 +5,34 @@
         <!-- SHOW A COUNTDOWN TIMER -->
         <v-container v-if="currentTime" class="mt-5">
           <div class="text-4xl redtext countdown-row__logo">
-            <img
-              src="/logo.png"
-              style="max-height: 200px"
-              alt="hyperpunks logo"
-            />
+            <p style="font-size: 3em; font-weight: bold">
+              Get ready to enter the Gutta
+            </p>
           </div>
           <v-row class="timer-row">
             <v-col>
               <v-card class="countdown-number" elevation="0">
                 {{ currentTime.days }}
               </v-card>
-              <v-card style="color: #cc0000" elevation="0"> Days </v-card>
+              <v-card style="color: #fff" elevation="0"> Days </v-card>
             </v-col>
             <v-col>
               <v-card class="countdown-number" elevation="0">
                 {{ ('0' + currentTime.hours).slice(-2) }}
               </v-card>
-              <v-card style="color: #cc0000" elevation="0"> Hours </v-card>
+              <v-card style="color: #fff" elevation="0"> Hours </v-card>
             </v-col>
             <v-col>
               <v-card class="countdown-number" elevation="0">
                 {{ ('0' + currentTime.minutes).slice(-2) }}
               </v-card>
-              <v-card style="color: #cc0000" elevation="0"> Minutes </v-card>
+              <v-card style="color: #fff" elevation="0"> Minutes </v-card>
             </v-col>
             <v-col>
               <v-card class="countdown-number" elevation="0">
                 {{ ('0' + currentTime.seconds).slice(-2) }}
               </v-card>
-              <v-card style="color: #cc0000" elevation="0"> Seconds </v-card>
+              <v-card style="color: #fff" elevation="0"> Seconds </v-card>
             </v-col>
           </v-row>
         </v-container>
