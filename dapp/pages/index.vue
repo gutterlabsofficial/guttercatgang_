@@ -151,7 +151,7 @@
 
 <script>
 import { ethers } from 'ethers'
-import { CONTRACT_ADDR, RPC_PROVIDER, NETWORK_ID, DEADLINE } from '../constants'
+import { CONTRACT_ADDR, RPC_PROVIDER, NETWORK_ID } from '../constants'
 import { ERC1155_ABI } from '../erc1155_abi'
 const EthersUtils = require('ethers').utils
 
@@ -180,12 +180,6 @@ export default {
     }
   },
   mounted() {
-    const t = Date.parse(DEADLINE) - Date.parse(new Date())
-    console.log(t)
-    if (t > 0) {
-      this.$router.push('/countdown')
-      return
-    }
     this.id = this.$route.query.id
     this.contractAddress = CONTRACT_ADDR
     if (!window.ethereum) {
