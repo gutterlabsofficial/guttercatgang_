@@ -6,7 +6,7 @@ require("@nomiclabs/hardhat-etherscan")
 
 module.exports = {
 	solidity: {
-		version: "0.8.4",
+		version: "0.8.7",
 		settings: {
 			optimizer: {
 				enabled: true,
@@ -56,6 +56,22 @@ module.exports = {
 			network_id: 56,
 			accounts: [process.env.PRIVATE_KEY_BSC],
 		},
+		polygon: {
+			url: process.env.MATIC_RPC,
+			network_id: 4,
+			gas: 1500000,
+			gasPrice: 13000000000, //13 gwei
+			timeout: 25000,
+			accounts: [process.env.PRIVATE_KEY_MAINNET],
+		},
+		polygon_test: {
+			url: process.env.MATIC_RPC_TEST,
+			network_id: 4,
+			gas: 1500000,
+			gasPrice: 13000000000, //13 gwei
+			timeout: 25000,
+			accounts: [process.env.PRIVATE_KEY_MAINNET],
+		},
 	},
 
 	gasReporter: {
@@ -69,6 +85,6 @@ module.exports = {
 		timeout: 20000,
 	},
 	etherscan: {
-		apiKey: process.env.ETHERSCAN_KEY, //BSC_SCAP_API_KEY or ETHERSCAN_KEY
+		apiKey: process.env.POLYSCAN_KEY, //BSC_SCAP_API_KEY or ETHERSCAN_KEY
 	},
 }

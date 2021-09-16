@@ -12,11 +12,14 @@
 		"deploy:rinkeby": "NETWORK=rinkeby npx hardhat run --network rinkeby scripts/deploy.js",
 		"deploy:mainnet": "NETWORK=mainnet npx hardhat run --network mainnet scripts/deploy.js",
 		"deploy:bsc_test": "NETWORK=bsc_test npx hardhat run --network bsc_test scripts/deploy.js",
-		"deploy:bsc": "NETWORK=bsc npx hardhat run --network bsc scripts/deploy.js"
+		"deploy:bsc": "NETWORK=bsc npx hardhat run --network bsc scripts/deploy.js",
+		"deploy_giveaway:polygon": "NETWORK=polygon npx hardhat run --network polygon scripts/deploy_giveaway.js",
+		"deploy_giveaway:polygon_test": "NETWORK=polygon_test npx hardhat run --network polygon_test scripts/deploy_giveaway.js"
 	},
 	"author": "Andrei.",
 	"license": "MIT",
 	"dependencies": {
+		"@chainlink/contracts": "^0.2.1",
 		"@openzeppelin/contracts": "^4.1.0",
 		"@truffle/hdwallet-provider": "1.2.5",
 		"dotenv": "^8.2.0",
