@@ -10,6 +10,7 @@
 		"testGas": "REPORT_GAS=true npx hardhat test --network ganache",
 		"prettier": "prettier --write 'contracts/**/*.sol'",
 		"deploy:rinkeby": "NETWORK=rinkeby npx hardhat run --network rinkeby scripts/deploy.js",
+		"deploy:test": "NETWORK=rinkeby npx hardhat run --network rinkeby scripts/deploy_test.js",
 		"deploy:mainnet": "NETWORK=mainnet npx hardhat run --network mainnet scripts/deploy.js",
 		"deploy:bsc_test": "NETWORK=bsc_test npx hardhat run --network bsc_test scripts/deploy.js",
 		"deploy:bsc": "NETWORK=bsc npx hardhat run --network bsc scripts/deploy.js",

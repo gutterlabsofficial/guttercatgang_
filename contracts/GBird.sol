@@ -15,7 +15,7 @@ interface GSpecies {
 	function balanceOf(address owner) external view returns (uint256);
 }
 
-contract Dogs is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
+contract GBird is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
 	using Strings for uint256;
 
 	GSpecies public gutterSpecies;
@@ -28,7 +28,7 @@ contract Dogs is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
 
 	event CAction(uint256 nftID, uint256 value, uint256 actionID, string payload);
 
-	constructor(address _gutterSpeciesContract) ERC721("Gutter Dogs", "DOG") {
+	constructor(address _gutterSpeciesContract) ERC721("Gutter Birds", "GBIRD") {
 		gutterSpecies = GSpecies(_gutterSpeciesContract);
 	}
 
@@ -36,8 +36,9 @@ contract Dogs is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
 	function mint(uint256 passID) public whenNotPaused nonReentrant {
 		require(gutterSpecies.balanceOf(msg.sender) > 0, "you have to own this pass with this id");
 		require(passID <= 3000, "id must <= 3000");
+		require(passID > 0, "id must > 0");
 
-		//must be approved
+		//must call setApprovalForAll(THIS_CONTRACT_ADDRESS, true) for this to work
 		gutterSpecies.burn(passID);
 
 		_mintToken(_msgSender());

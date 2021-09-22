@@ -4,6 +4,8 @@
 
 Quickly interract with the contract: https://etherscan.io/address/0xEdB61f74B0d09B2558F1eeb79B247c1F363Ae452#code
 
+# ERC721Mock: https://rinkeby.etherscan.io/address/0x0F85D1564e297d66E0040447Da1cd24981CED517#writeContract
+
 ### Fair Giveaway Address for GutterCat Gang ONLY!
 
 https://polygonscan.com/address/0x4931C6f2dc1Ae7aA7FDb4BA75fe94E6fd4A3c398#code
