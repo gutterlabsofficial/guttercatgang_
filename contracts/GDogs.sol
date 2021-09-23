@@ -34,9 +34,9 @@ contract GDogs is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
 
 	//gives you a dog if you own a gutter species pass from 1 to 3000
 	function mint(uint256 passID) public whenNotPaused nonReentrant {
-		require(gutterSpecies.balanceOf(msg.sender) > 0, "you have to own this pass with this id");
 		require(passID <= 3000, "id must <= 3000");
 		require(passID > 0, "id must > 0");
+		require(gutterSpecies.balanceOf(msg.sender) > 0, "you have to own this pass with this id");
 
 		//must call setApprovalForAll(THIS_CONTRACT_ADDRESS, true) for this to work
 		gutterSpecies.burn(passID);
