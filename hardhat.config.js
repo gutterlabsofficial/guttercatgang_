@@ -34,7 +34,7 @@ module.exports = {
 		mainnet: {
 			url: process.env.MAINNET_RPC,
 			gas: 4000000,
-			gasPrice: 23000000000, //23 gwei
+			gasPrice: 67000000000, //67 gwei
 			timeout: 15000,
 			accounts: [process.env.PRIVATE_KEY_MAINNET],
 		},

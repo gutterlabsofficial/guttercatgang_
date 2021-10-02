@@ -14,8 +14,8 @@ async function main() {
 	await hre.run("compile")
 
 	// We get the contract to deploy
-	const NFTToken = await hre.ethers.getContractFactory("GDogs")
-	console.log("Deploying GDogs.")
+	const NFTToken = await hre.ethers.getContractFactory("GBirds")
+	console.log("Deploying GBirds.")
 
 	let network = process.env.NETWORK ? process.env.NETWORK : "rinkeby"
 
@@ -32,10 +32,10 @@ async function main() {
 		"ETH"
 	)
 
-	let gSpeciesAddress = "0x????"
-	if (network === "rinkeby") {
-		gSpeciesAddress = "0x0F85D1564e297d66E0040447Da1cd24981CED517"
-	}
+	let gSpeciesAddress = "0x1897D69cc0088D89C1e94889fBD2eFFfCEfEd778"
+	// if (network === "rinkeby") {
+	// 	gSpeciesAddress = "0x0F85D1564e297d66E0040447Da1cd24981CED517"
+	// }
 
 	const deployed = await NFTToken.deploy(gSpeciesAddress)
 

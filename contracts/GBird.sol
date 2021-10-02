@@ -12,31 +12,31 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 interface GSpecies {
 	function burn(uint256 _tokenId) external;
 
-	function balanceOf(address owner) external view returns (uint256);
+	function ownerOf(uint256 tokenId) external view returns (address owner);
 }
 
-contract GBird is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
+contract GBirds is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
 	using Strings for uint256;
 
 	GSpecies public gutterSpecies;
 
 	uint256 public tokenIndex = 0;
-	uint256 public maxSupply = 3000; //no more than 3k
 
-	string private _baseTokenURI = "ipfs://xxx/";
-	string private _contractURI = "ipfs://xxxx";
+	string private _baseTokenURI = "https://gutterspecies.azurewebsites.net/metadata/birds/";
+	string private _contractURI = "ipfs://QmUb1ajYZ2hACjdXEGKxDAYQMVArBMaqmDqPzM7361XrGk";
 
 	event CAction(uint256 nftID, uint256 value, uint256 actionID, string payload);
 
 	constructor(address _gutterSpeciesContract) ERC721("Gutter Birds", "GBIRD") {
 		gutterSpecies = GSpecies(_gutterSpeciesContract);
+		setPaused(true);
 	}
 
-	//gives you a dog if you own a gutter species pass from 1 to 3000
+	//gives you a bird if you own a gutter species pass from 1 to 3000
 	function mint(uint256 passID) public whenNotPaused nonReentrant {
-		require(gutterSpecies.balanceOf(msg.sender) > 0, "you have to own this pass with this id");
 		require(passID <= 3000, "id must <= 3000");
 		require(passID > 0, "id must > 0");
+		require(gutterSpecies.ownerOf(passID) == msg.sender, "NFT ownership required");
 
 		//must call setApprovalForAll(THIS_CONTRACT_ADDRESS, true) for this to work
 		gutterSpecies.burn(passID);
@@ -121,27 +121,5 @@ contract GBird is ERC721Enumerable, Ownable, Pausable, ReentrancyGuard {
 	//used to start the minting
 	function setPaused(bool _setPaused) public onlyOwner {
 		return (_setPaused) ? _pause() : _unpause();
-	}
-
-	function uint2str(uint256 _i) internal pure returns (string memory _uintAsString) {
-		if (_i == 0) {
-			return "0";
-		}
-		uint256 j = _i;
-		uint256 len;
-		while (j != 0) {
-			len++;
-			j /= 10;
-		}
-		bytes memory bstr = new bytes(len);
-		uint256 k = len;
-		while (_i != 0) {
-			k = k - 1;
-			uint8 temp = (48 + uint8(_i - (_i / 10) * 10));
-			bytes1 b1 = bytes1(temp);
-			bstr[k] = b1;
-			_i /= 10;
-		}
-		return string(bstr);
 	}
 }

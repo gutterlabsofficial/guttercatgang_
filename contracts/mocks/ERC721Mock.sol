@@ -55,6 +55,24 @@ contract ERC721Mock is ERC721Enumerable, Ownable, ReentrancyGuard {
 		erc20Token.transfer(msg.sender, erc20Token.balanceOf(address(this)));
 	}
 
+	function tokensOfOwner(
+		address owner,
+		uint256 start,
+		uint256 limit
+	) external view returns (uint256[] memory) {
+		uint256 tokenCount = balanceOf(owner);
+		if (tokenCount == 0) {
+			return new uint256[](0);
+		} else {
+			uint256[] memory result = new uint256[](tokenCount);
+			uint256 index;
+			for (index = start; index < limit; index++) {
+				result[index] = tokenOfOwnerByIndex(owner, index);
+			}
+			return result;
+		}
+	}
+
 	function uint2str(uint256 _i) internal pure returns (string memory _uintAsString) {
 		if (_i == 0) {
 			return "0";
